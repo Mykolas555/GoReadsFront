@@ -9,16 +9,15 @@ const Reads = () => {
   useEffect(() => {
     const fetchReads = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/reads/allReads');
+        const response = await fetch(`${API_URL}reads/allReads`);
         const data = await response.json();
         setReads(data.data.reads);
         setLoading(false); 
       } catch (error) {
-        console.error('Error fetching reads:', error);
+        console.error('Error:', error);
         setLoading(false);
       }
     };
-
     fetchReads();  
   }, []);
 
@@ -40,7 +39,6 @@ const Reads = () => {
             <CardFooter className="flex justify-between">
               <CardDescription>{read.userName}</CardDescription>
               <CardDescription>{dateFormatter(read.createdAt)}</CardDescription>
-              
             </CardFooter>
           </Card>
         ))

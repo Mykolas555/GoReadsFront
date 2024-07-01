@@ -7,16 +7,20 @@ import { Input } from "@/components/ui/input";
 import Cookies from 'js-cookie';
 
 const Add = () => {
+  
   const [readText, setReadText] = useState({
     theme: "",
     text: "",
   });
-
+  
   const [userInfo, setUserInfo] = useState({
     userName: '',
     userGoogleID: '',
     token: '',
   });
+
+  const [responseStatus, setResponseStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const retrieveInfo = async () => {
@@ -32,9 +36,8 @@ const Add = () => {
         } : {};
 
         setUserInfo(infoAboutUserFromCookie);
-        console.log('Retrieved token:', infoAboutUserFromCookie);
       } catch (error) {
-        console.error('Error retrieving cookie:', error);
+        console.error('Error:', error);
       }
     };
     retrieveInfo();
@@ -46,8 +49,9 @@ const Add = () => {
   };
 
   const handleDeployClick = async () => {
+    setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/reads/postRead', {
+      const response = await fetch(`${API_URL}reads/postRead`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,13 +64,18 @@ const Add = () => {
         }),
       });
       const responseData = await response.json();
-      setReadText({
-        theme: "",
-        text: "",
-      });
-      console.log(responseData);
+      
+      setResponseStatus(responseData.status);
+      if (responseData.status === "Success") {
+        setReadText({
+          theme: "",
+          text: "",
+        });
+      }
     } catch (error) {
-      console.error('Error:', error.message);
+      setResponseStatus('Fail'); 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,8 +113,20 @@ const Add = () => {
             </form>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Button onClick={handleDeployClick}>Deploy</Button>
+            <Button onClick={handleDeployClick} disabled={loading}>
+              {loading ? 'Deploying...' : 'Deploy'}
+            </Button>
           </CardFooter>
+          {responseStatus === 'Fail' && (
+            <CardContent>
+              <h1 className="text-red-500">Failed to deploy your read. Please try again.</h1>
+            </CardContent>
+          )}
+          {responseStatus === 'Success' && (
+            <CardContent>
+              <h1 className="text-green-500">Your reed has been deployed.</h1>
+            </CardContent>
+          )}
         </Card>
       ) : (
         <h1>Please <a href="/login" className="text-blue underline">login</a> to post a read.</h1>

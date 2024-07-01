@@ -7,26 +7,23 @@ const Login = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check if user is already authenticated
-    fetch('http://localhost:5000/auth/status', {
-      credentials: 'include' // include cookies in the request
-    })
+    fetch(`${LOGIN_URL}auth/status`, { credentials: 'include' })
       .then(response => response.json())
       .then(data => {
         if (data.authenticated) {
           setUser(data.user);
         }
       })
-      .catch(err => console.error('Error fetching auth status:', err));
+      .catch(err => console.error('Error:', err));
   },[user] );
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/google';
+    window.location.href = `${LOGIN_URL}auth/google`;
   };
 
   return (
     <div className="Login p-5">
-<Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm">
           <CardHeader>
             <CardTitle className="text-2xl">Welcome to GoReads</CardTitle>
             <CardDescription>Login</CardDescription>

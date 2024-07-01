@@ -22,7 +22,7 @@ const Header = () => {
         }
       })
       .catch(err => {
-        console.error('Error fetching auth status:', err);
+        console.error('Error:', err);
         navigate("/login");
       });
   }, [navigate]);
@@ -30,7 +30,7 @@ const Header = () => {
   const handleLogout = () => {
     navigate("/");
     window.location.reload();
-    fetch('http://localhost:5000/auth/logout', { credentials: 'include' })
+    fetch(`${LOGIN_URL}auth/logout`, { credentials: 'include' })
       .then(response => {
         if (response.ok) {
           setUser(null);
