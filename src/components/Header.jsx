@@ -23,9 +23,9 @@ const Header = () => {
       })
       .catch(err => {
         console.error('Error:', err);
-        navigate("/login");
+        
       });
-  }, [navigate]);
+  }, []);
 
   const handleLogout = () => {
     navigate("/");
