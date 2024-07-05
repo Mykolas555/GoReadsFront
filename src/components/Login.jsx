@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -29,21 +29,27 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
+        credentials: 'include', // withCredentials is not needed
         body: JSON.stringify(formData)
       });
 
       const data = await response.json();
-      console.log(data)
+      console.log("Response status:", response.status);
+      console.log("Response data:", data);
+
       if (response.ok) {
-        console.log(data.token)
+        console.log("Token:", data.data.userToken);
+        // Save data to cookies
+        Cookies.set('User', data.data.userName, { expires: 7 });
+        Cookies.set('ID', data.data.userID, { expires: 7 });
+        Cookies.set('Token', data.data.userToken, { expires: 7 });
         window.location.href = '/';
       } else {
         setError(data.message);
       }
     } catch (err) {
-      
       console.error('Error:', err);
+      setError('An unexpected error occurred.');
     }
   };
 
