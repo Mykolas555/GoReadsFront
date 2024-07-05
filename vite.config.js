@@ -16,8 +16,8 @@ export default defineConfig(({ command, mode }) => {
       },
     },
       define: {
-        API_URL: JSON.stringify('http://localhost:5000/api/'),
-        LOGIN_URL: JSON.stringify('http://localhost:5000/'),
+        API_URL: JSON.stringify('https://goreadsback.onrender.com/api/'),
+        LOGIN_URL: JSON.stringify('https://goreadsback.onrender.com/'),
         //https://goreadsback.onrender.com/
       }
   };
