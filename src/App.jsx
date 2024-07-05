@@ -11,7 +11,7 @@ import Register from './components/authorization/Register';
 
 function App() {
   return (
-    <Router>
+    <Router basename={LOGIN_URL}>
       <Header />
       <Routes>
         <Route path="/register" element={<Register />} />

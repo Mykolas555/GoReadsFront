@@ -23,6 +23,8 @@ const Login = () => {
     });
   };
 
+  const isFormValid = formData.nickname && formData.password;
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -91,7 +93,7 @@ const Login = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={!isFormValid}>
                 Login
               </Button>
             </form>

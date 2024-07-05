@@ -21,6 +21,8 @@ const Add = () => {
     token: '',
   });
 
+  const isFormValid = readText.theme && readText.text
+
   const [responseStatus, setResponseStatus] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -132,7 +134,7 @@ const Add = () => {
           </CardContent>
           <CardFooter className="flex justify-center">
             {!loading && (
-              <Button onClick={handleDeployClick}>
+              <Button onClick={handleDeployClick} disabled={!isFormValid}>
                 Deploy
               </Button>
             )}

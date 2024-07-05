@@ -26,6 +26,8 @@ const Register = () => {
     });
   };
 
+  const isFormValid = formData.nickname && formData.password && formData.name && formData.lastName && formData.email;
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
@@ -131,7 +133,7 @@ const Register = () => {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={!isFormValid}>
                   Register
                 </Button>
               </form>

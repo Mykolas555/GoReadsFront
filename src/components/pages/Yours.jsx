@@ -53,12 +53,9 @@ const Yours = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-
       if (!response.ok) {
         throw new Error('Failed to delete read');
       }
-
-      // Remove the deleted read from the state
       setReads((prevReads) => prevReads.filter((read) => read._id !== readID));
     } catch (error) {
       console.log('Error:', error);
@@ -77,7 +74,6 @@ const Yours = () => {
             <Card key={index} className="w-full m-2">
               <CardHeader>  
                 <CardTitle>{read.theme}</CardTitle>
-                <CardTitle>{read._id}</CardTitle>
               </CardHeader>
               <CardContent>
                 {read.text}
