@@ -1,45 +1,51 @@
-import React, { useState, useEffect } from "react";
+import Cookies from 'js-cookie';
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { checkAuthStatus } from '../utils/chekLoggedUser';
-import Cookies from 'js-cookie';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    userName: "",
+    userID: "",
+    token: ""
+  });
+
+  const [cookieLoading, setCookieLoading] = useState(true);
 
   useEffect(() => {
-    checkAuthStatus()
-      .then(data => {
-        if (data.authenticated) {
-          setUser(data.user);
-        } else {
-          Cookies.remove('Token');
-          Cookies.remove('ID');
-          Cookies.remove('User');
+    const loadCookies = async () => {
+      try {
+        const userName = Cookies.get('User') ;
+        const userID = Cookies.get('ID');
+        const token = Cookies.get('Token');
+        console.log('Cookies:', { userName, userID, token });
+
+        if (userName && userID && token) {
+          setUser({ userName, userID, token });
         }
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        
-      });
+      } catch (error) {
+        console.error('Error loading cookies:', error);
+      } finally {
+        setCookieLoading(false);
+      }
+    };
+    loadCookies();
   }, []);
 
   const handleLogout = () => {
-    navigate("/");
-    window.location.reload();
-    fetch(`${LOGIN_URL}auth/logout`, { credentials: 'include' })
-      .then(response => {
-        if (response.ok) {
-          setUser(null);
-        } else {
-          navigate('/');
-          alert('Logout failed');
-        }
-      })
-      .catch(err => console.log('Error logging out:', err));
+          Cookies.remove('User');
+          Cookies.remove('ID');
+          Cookies.remove('Token');
+          setUser({
+            userName: "",
+            userID: "",
+            token: ""
+          });
+          navigate("/");
+          window.location.reload();
   };
 
   const navigateSettings = () => {
@@ -96,15 +102,17 @@ const Header = () => {
         </ul>
       </nav>
       <div className="ml-auto flex items-center space-x-4">
-        {user ? (
+      {cookieLoading ? (
+        <div className="text-muted-foreground">Loading...</div>
+      ) :user.userName ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <img src={user.photos[0].value} className="h-5 w-5" alt="User Avatar" />
+                {user.userName.charAt(0)}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{user._json.given_name}</DropdownMenuLabel>
+              <DropdownMenuLabel>{user.userName}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={navigateSettings}>Settings</DropdownMenuItem>
               <DropdownMenuItem onClick={navigateSupport}>Support</DropdownMenuItem>
