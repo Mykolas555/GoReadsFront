@@ -7,45 +7,43 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 
 const Header = () => {
   const navigate = useNavigate();
+  const [cookieLoading, setCookieLoading] = useState(true);
   const [user, setUser] = useState({
+    userNickname: "",
     userName: "",
     userID: "",
     token: ""
   });
 
-  const [cookieLoading, setCookieLoading] = useState(true);
-
   useEffect(() => {
     const loadCookies = async () => {
       try {
-        const userName = Cookies.get('User') ;
+        const userNickname = Cookies.get('Nickname');
+        const userName = Cookies.get('User');
         const userID = Cookies.get('ID');
-        const token = Cookies.get('Token');
-        console.log('Cookies:', { userName, userID, token });
-
+        const token = Cookies.get('Token')
         if (userName && userID && token) {
-          setUser({ userName, userID, token });
+          setUser({ userNickname, userName, userID, token });
         }
-      } catch (error) {
-        console.error('Error loading cookies:', error);
-      } finally {
-        setCookieLoading(false);
-      }
+      } catch (error) { console.error('Error loading cookies:', error);
+      } finally { setCookieLoading(false); }
     };
     loadCookies();
   }, []);
 
   const handleLogout = () => {
-          Cookies.remove('User');
-          Cookies.remove('ID');
-          Cookies.remove('Token');
-          setUser({
-            userName: "",
-            userID: "",
-            token: ""
-          });
-          navigate("/");
-          window.location.reload();
+    Cookies.remove('User');
+    Cookies.remove('ID');
+    Cookies.remove('Token');
+    Cookies.remove('Nickname');
+    setUser({
+      userNickname: "",
+      userName: "",
+      userID: "",
+      token: ""
+    });
+    navigate("/");
+    window.location.reload();
   };
 
   const navigateSettings = () => {
@@ -104,11 +102,11 @@ const Header = () => {
       <div className="ml-auto flex items-center space-x-4">
       {cookieLoading ? (
         <div className="text-muted-foreground">Loading...</div>
-      ) :user.userName ? (
+      ) : user.userName ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                {user.userName.charAt(0)}
+              <Button variant="success">
+                {user.userNickname}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -122,7 +120,7 @@ const Header = () => {
           </DropdownMenu>
         ) : (
           <Link to="/login">
-            <Button variant="secondary">Login</Button>
+            <Button variant="success">Login</Button>
           </Link>
         )}
       </div>

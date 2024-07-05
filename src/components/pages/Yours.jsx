@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Cookies from 'js-cookie';
 import { dateFormatter } from '../../utils/dateFormatter';
 import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Yours = () => {
+  const navigate = useNavigate();
   const [reads, setReads] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); 
@@ -67,7 +69,7 @@ const Yours = () => {
   return (
     <div className="yours w-full p-10">
       {loading && <p>Loading...</p>}
-      {error && <h1>Please <a href="/login" className="text-blue underline">login</a> to post a read.</h1>}
+      {error && <h1 >Please <span className="text-green-500 cursor-pointer" onClick={() => navigate('/login')}>login</span> to post a read.</h1>}
       {reads && reads.length === 0 && <p>You don't have any reads posted</p>}
       {reads && (
         <div>
