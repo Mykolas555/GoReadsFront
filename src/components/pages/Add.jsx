@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { ClipLoader } from 'react-spinners';  // Import the ClipLoader
+import { ClipLoader } from 'react-spinners';
 
 const Add = () => {
   const navigate = useNavigate();
@@ -17,8 +17,9 @@ const Add = () => {
 
   const [userInfo, setUserInfo] = useState({
     userName: '',
-    userGoogleID: '',
+    userID: '',
     token: '',
+    userNickname: ''
   });
 
   const isFormValid = readText.theme && readText.text
@@ -30,12 +31,14 @@ const Add = () => {
     const retrieveInfo = async () => {
       try {
         const userName = Cookies.get('User');
-        const userGoogleID = Cookies.get('ID');
+        const userID = Cookies.get('ID');
         const tokenValue = Cookies.get('Token');
-        const hasValues = userName && userGoogleID && tokenValue;
+        const userNickname = Cookies.get('Nickname');
+        const hasValues = userName && userID && tokenValue && userNickname;
         const infoAboutUserFromCookie = hasValues ? {
           userName,
-          userGoogleID,
+          userID,
+          userNickname,
           token: tokenValue,
         } : {};
 
@@ -64,7 +67,8 @@ const Add = () => {
         body: JSON.stringify({
           ...readText,
           userName: userInfo.userName,
-          userGoogleID: userInfo.userGoogleID,
+          userID: userInfo.userID,
+          userNickname: userInfo.userNickname,
         }),
       });
       const responseData = await response.json();
@@ -84,21 +88,21 @@ const Add = () => {
   };
 
   return (
-    <div className="reads p-10">
-      {userInfo.userName && userInfo.userGoogleID && userInfo.token ? (
+    <div className="reads p-5">
+      {userInfo.userName && userInfo.userID && userInfo.token &&userInfo.userNickname ? (
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Post your Read</CardTitle>
             <CardDescription>Deploy your Read to feed</CardDescription>
             {responseStatus === 'Fail' && (
-            <cardDescription>
+            <CardDescription>
               <h1 className="text-red-500">Failed to deploy your read. Please try again.</h1>
-            </cardDescription>
+            </CardDescription>
           )}
           {responseStatus === 'Success' && (
-            <cardDescription>
+            <CardDescription>
               <h1 className="text-green-500">Your read has been deployed.</h1>
-            </cardDescription>
+            </CardDescription>
           )}
           </CardHeader>
           <CardContent>

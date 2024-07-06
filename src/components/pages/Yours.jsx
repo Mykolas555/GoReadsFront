@@ -14,9 +14,9 @@ const Yours = () => {
   useEffect(() => {
     const fetchReads = async () => {
       try {
-        const userGoogleID = Cookies.get('ID');
+        const userID = Cookies.get('ID');
         const token = Cookies.get('Token');
-        const response = await fetch(`${API_URL}reads/${userGoogleID}`, {
+        const response = await fetch(`${API_URL}reads/${userID}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const Yours = () => {
   };
 
   return (
-    <div className="yours w-full p-10">
+    <div className="yours w-full p-5">
       {loading && <p>Loading...</p>}
       {error && <h1 >Please <span className="text-green-500 cursor-pointer" onClick={() => navigate('/login')}>login</span> to post a read.</h1>}
       {reads && reads.length === 0 && <p>You don't have any reads posted</p>}
@@ -79,7 +79,7 @@ const Yours = () => {
                 {read.text}
               </CardContent>
               <CardFooter className="flex justify-between">
-                <CardDescription>{read.userName}</CardDescription>
+                <CardDescription>@{read.userNickname}</CardDescription>
                 <div className='flex items-center gap-x-4'>
                   <CardDescription>{dateFormatter(read.createdAt)}</CardDescription>
                   <Button onClick={() => handleDeleteRead(read._id)}>X</Button>

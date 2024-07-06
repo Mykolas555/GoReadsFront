@@ -37,7 +37,7 @@ const Reads = () => {
               {read.text}
             </CardContent>
             <CardFooter className="flex justify-between">
-              <CardDescription>{read.userName}</CardDescription>
+              <CardDescription>@{read.userNickname}</CardDescription>
               <CardDescription>{dateFormatter(read.createdAt)}</CardDescription>
             </CardFooter>
           </Card>
