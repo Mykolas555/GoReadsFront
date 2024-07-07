@@ -46,8 +46,8 @@ const Header = () => {
     window.location.reload();
   };
 
-  const navigateSettings = () => {
-    navigate("/settings");
+  const navigateUserInfo = () => {
+    navigate("/userInfo");
   };
 
   const navigateSupport = () => {
@@ -112,7 +112,7 @@ const Header = () => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{user.userName}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={navigateSettings}>Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={navigateUserInfo}>UserInfo</DropdownMenuItem>
               <DropdownMenuItem onClick={navigateSupport}>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>

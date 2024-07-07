@@ -6,7 +6,7 @@ import Reads from './components/pages/Reads';
 import Yours from './components/pages/Yours';
 import Add from './components/pages/Add';
 import Support from './components/pages/Support';
-import Settings from './components/pages/Settings';
+import UserInfo from './components/pages/UserInfo';
 import Register from './components/authorization/Register';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Route path="/yours" element={<Yours />} />
         <Route path="/add" element={<Add />} />
         <Route path="/support" element={<Support />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/userInfo" element={<UserInfo />} />
       </Routes>
     </Router>
   );

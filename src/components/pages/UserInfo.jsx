@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
 
@@ -35,28 +35,27 @@ const Settings = () => {
   if (error) { return <div>{error}</div> }
 
   return (
-    <div className="support w-full p-5">
+    <div className="support p-5">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="text-2xl">Settings</CardTitle>
+          <CardTitle className="text-2xl">User information</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col md:flex-row">
-          <div className="md:flex-1 md:border-r md:border-gray-300 md:pr-4">
+        <CardContent className="flex ">
+          <div className="flex">
             <div className="flex justify-center items-center">
               <div>
-              <h1 class="text-3xl p-2">User Info</h1>
-              {user ? (
+                {user ? (
                   <>
-                    <div class="text-1rem">
+                    <div className="text-1rem">
                       <strong>Nickname:</strong> {user.nickname}
                     </div>
-                    <div class="text-1rem">
+                    <div className="text-1rem">
                       <strong>Name:</strong> {user.name}
                     </div>
-                    <div class="text-1rem">
+                    <div className="text-1rem">
                       <strong>Last name:</strong> {user.lastName}
                     </div>
-                    <div class="text-1rem">
+                    <div className="text-1rem">
                       <strong>Email:</strong> {user.email}
                     </div>
                   </>
@@ -66,18 +65,7 @@ const Settings = () => {
               </div>
             </div>
           </div>
-          <div className="md:flex-1 md:pl-4">
-            <div className="flex justify-center items-center">
-              <div>
-                <h1 class="text-3xl p-2">Settings</h1>
-                <p>make change color save local storage SHADCN UI</p>
-              </div>
-            </div>
-          </div>
         </CardContent>
-        <CardFooter>
-          
-        </CardFooter>
       </Card>
     </div>
   );
