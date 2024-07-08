@@ -77,7 +77,7 @@ const Login = () => {
                   name="nickname"
                   value={formData.nickname}
                   onChange={handleInputChange}
-                  placeholder="Enter your email"
+                  placeholder="Enter your nickname"
                   required
                 />
               </div>
